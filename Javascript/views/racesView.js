@@ -1,4 +1,4 @@
- HEAD
+
 // Base URL for fetching data
 const BASE_URL = "https://www.randyconnolly.com/funwebdev/3rd/api/f1/";
 
