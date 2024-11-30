@@ -14,8 +14,8 @@
             <button id="racesBtn">Races</button>
         </nav>
     </header>
+
     <main>
-        <!-- Views -->
         <section id="home-view" class="view active">
             <h2>Home</h2>
             <label for="season-select">Select a season:</label>
@@ -26,59 +26,53 @@
             </select>
         </section>
 
-        <main>
-            <!-- Table for displaying races -->
-            <section id="races-section">
-                <h2>Races</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Race Name</th>
-                            <th>Date</th>
-                            <th>Circuit</th>
-                        </tr>
-                    </thead>
-                    <tbody id="raceTableBody">
-                        <!-- Race data will populate here dynamically -->
-                    </tbody>
-                </table>
-            </section>
-    
-            <!-- Table for displaying race results -->
-            <section id="results-section">
-                <h2>Race Results</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Position</th>
-                            <th>Driver</th>
-                            <th>Constructor</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultsTableBody">
-                        <!-- Results data will populate here dynamically -->
-                    </tbody>
-                </table>
-            </section>
-    
-            <!-- Table for displaying qualifying data -->
-            <section id="qualifying-section">
-                <h2>Qualifying Results</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Position</th>
-                            <th>Driver</th>
-                            <th>Constructor</th>
-                        </tr>
-                    </thead>
-                    <tbody id="qualifyingTableBody">
-                        <!-- Qualifying data will populate here dynamically -->
-                    </tbody>
-                </table>
-            </section>
-        </main>
-        
+        <section id="races-section">
+            <h2>Races</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Race Name</th>
+                        <th>Date</th>
+                        <th>Circuit</th>
+                    </tr>
+                </thead>
+                <tbody id="raceTableBody">
+                    <!-- Race data will populate here dynamically -->
+                </tbody>
+            </table>
+        </section>
+
+        <section id="results-section">
+            <h2>Race Results</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Driver</th>
+                        <th>Constructor</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTableBody">
+                    <!-- Results data will populate here dynamically -->
+                </tbody>
+            </table>
+        </section>
+
+        <section id="qualifying-section">
+            <h2>Qualifying Results</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Driver</th>
+                        <th>Constructor</th>
+                    </tr>
+                </thead>
+                <tbody id="qualifyingTableBody">
+                    <!-- Qualifying data will populate here dynamically -->
+                </tbody>
+            </table>
+        </section>
 
         <section id="races-view" class="view hidden">
             <h2>Races</h2>
@@ -86,7 +80,6 @@
         </section>
     </main>
 
-    <!-- Popups -->
     <div id="popup" class="popup hidden">
         <div id="popup-content"></div>
         <button id="close-popup">Close</button>
