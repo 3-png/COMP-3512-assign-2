@@ -21,8 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
       races.forEach(race => {
           const tr = document.createElement('tr');
           tr.innerHTML = `
-              <td>${race.name}</td>
-              <td>${race.date}</td>
+              <td>${race.round}</td>
               <td>${race.circuit.name}</td>
               <td><button class="results-btn" data-race-id="${race.id}" data-race-name="${race.name}">Results</button></td>
           `;
