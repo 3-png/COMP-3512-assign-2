@@ -32,8 +32,19 @@ document.addEventListener("DOMContentLoaded", function () {
      
   }
 
+  // Add event listeners to the "Results" buttons
+  const resultButtons = document.querySelectorAll('.results-btn');
+  resultButtons.forEach(button => {
+      button.addEventListener('click', () => {
+          const raceId = button.dataset.raceId;
+          const raceName = button.dataset.raceName;
+          raceTitle.textContent = raceName;
+          fetchRaceAndQualifyingResults(raceId);
+      });
+  });
+
+
   fetchRaces('2023');
   
 
 });
-
