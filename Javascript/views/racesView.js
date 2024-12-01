@@ -26,9 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
               <td><button class="results-btn" data-race-id="${race.id}" data-race-name="${race.name}">Results</button></td>
           `;
           raceTableBody.appendChild(tr);
-      });
-
-       
+      });    
      
   }
 
@@ -42,6 +40,22 @@ document.addEventListener("DOMContentLoaded", function () {
           fetchRaceAndQualifyingResults(raceId);
       });
   });
+
+  // Fetch both race results and qualifying results for a specific race
+  function fetchRaceAndQualifyingResults(raceId) {
+    const raceUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`;
+    const qualifyingUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`;
+
+    Promise.all([fetch(raceUrl).then(res => res.json()), fetch(qualifyingUrl).then(res => res.json())])
+        .then(([raceResults, qualifyingResults]) => {
+            const sortedRaceResults = raceResults.sort((a, b) => a.position - b.position); // Sort race results
+            const sortedQualifyingResults = qualifyingResults.sort((a, b) => a.position - b.position); // Sort qualifying
+            displayRaceResults(sortedRaceResults);
+            displayQualifyingResults(sortedQualifyingResults);
+        })
+        .catch(error => console.error('Error fetching results:', error));
+}
+
 
 
   fetchRaces('2023');
