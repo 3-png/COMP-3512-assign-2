@@ -44,39 +44,45 @@
             </table>
         </section>
 
-        <section id="results-section">
-            <h2>Race Results</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Position</th>
-                        <th>Driver</th>
-                        <th>Constructor</th>
-                        <th>laps</th>
-                        <th>Points</th>
-                    </tr>
-                </thead>
-                <tbody id="resultsTableBody">
-                    <!-- Results data will populate here dynamically -->
-                </tbody>
-            </table>
-        </section>
-
-        <section id="qualifying-section">
-            <h2>Qualifying Results</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Position</th>
-                        <th>Driver</th>
-                        <th>Constructor</th>
-                    </tr>
-                </thead>
-                <tbody id="qualifyingTableBody">
-                    <!-- Qualifying data will populate here dynamically -->
-                </tbody>
-            </table>
-        </section>
+        <div id="results-container">
+            <h3>Results for <span id="race-title"></span></h3>
+            <div class="results-grid">
+                <div class="results-section">
+                    <h4>Qualifying</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Name</th>
+                                <th>Const</th>
+                                <th>Q1</th>
+                                <th>Q2</th>
+                                <th>Q3</th>
+                            </tr>
+                        </thead>
+                        <tbody id="qualifyingTableBody"></tbody>
+                    </table>
+                </div>
+        
+                
+                <div class="results-section">
+                    <h4>Race Results</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Name</th>
+                                <th>Const</th>
+                                <th>Laps</th>
+                                <th>Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
 
         <section id="races-view" class="view hidden">
             <h2>Races</h2>
