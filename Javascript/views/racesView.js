@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
               <td>${result.driver.forename} ${result.driver.surname}</td>
               <td>${result.constructor.name}</td>
               <td>${result.laps}</td>
-              <td>${result.time || 'N/A'}</td>
               <td>${result.points}</td>
           `;
           resultsTableBody.appendChild(tr);
