@@ -1,67 +1,41 @@
-// URL for F1 races
-const url = 'https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php';
+document.addEventListener("DOMContentLoaded", function () {
+  const seasonSelect = document.querySelector('#season-select');
+  const raceTableBody = document.querySelector('#raceTableBody');
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Get references to key elements using querySelector
-    const raceList = document.querySelector('#race-list');
-    const seasonSelect = document.querySelector('#season-select');
+  // Fetch races for a specific season
+  function fetchRaces(season) {
+      const url = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=${season}`;
+      fetch(url)
+          .then(response => response.json())
+          .then(data => displayRaces(data))
+          .catch(error => console.error('Error fetching races:', error));
+  }
 
-    // Fetch races when the page loads
-    function fetchRaces(season) {
-        const seasonUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=${season}`;
-        
-        fetch(seasonUrl)
-            .then(resp => resp.json())
-            .then(data => {
-                displayRaces(data);
-            })
-            .catch(error => console.error('Error fetching races:', error));
-    }
+  // Display races in the table
+  function displayRaces(races) {
+      raceTableBody.innerHTML = ''; // Clear existing data
+      races.forEach(race => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+              <td>${race.name}</td>
+              <td>${race.date}</td>
+              <td>${race.circuit.name}</td>
+          `;
+          tr.dataset.raceId = race.id; // Attach race ID for potential future use
+          raceTableBody.appendChild(tr);
 
-    // Display races in the list
-    function displayRaces(races) {
-        // Clear existing list items
-        raceList.innerHTML = '';
+          // Add click event for debugging or future functionality
+          tr.addEventListener('click', () => {
+              console.log(`Selected Race ID: ${race.id}`);
+          });
+      });
+  }
 
-        // Create list items for each race
-        races.forEach(race => {
-            const item = document.createElement('li');
-            item.textContent = race.name;
-            item.dataset.raceId = race.id; // Store race ID as a data attribute
-            
-            // Add click event to show race details
-            item.addEventListener('click', (e) => {
-                const raceId = e.target.dataset.raceId;
-                showRaceDetails(raceId);
-            });
+  // Fetch races for the default season (2023)
+  fetchRaces('2023');
 
-            raceList.appendChild(item);
-        });
-    }
-
-    // Function to show race details (placeholder)
-    function showRaceDetails(raceId) {
-        console.log(`Clicked race with ID: ${raceId}`);
-        // TODO: Implement logic to fetch and display race details
-    }
-
-    // Initial load with default season
-    fetchRaces('2023');
-
-    // Add event listener to season selector
-    seasonSelect.addEventListener('change', (e) => {
-        fetchRaces(e.target.value);
-    });
+  // Update races when the user selects a new season
+  seasonSelect.addEventListener('change', (e) => {
+      fetchRaces(e.target.value);
+  });
 });
-
-
-
-
-
-
-
-
-
-
-
-
