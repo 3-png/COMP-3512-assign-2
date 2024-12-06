@@ -14,9 +14,8 @@
 </head>
 
 <body>
-
     <div class="container">
-        <!-- Sidebar Navigation -->
+        <!-- Sidebar Navigation --------------------------------------- -->
         <aside class="sidebar">
             <!-- <h2 class="logo">Forumla 1</h2> -->
             <img src="./images/formula-1-logo-7.png" alt="Logo" class="logo">
@@ -32,7 +31,7 @@
         <!-- Main Content -->
         <main class="main-content">
 
-            <!-- Header Section  -->
+            <!-- Header Section --------------------------------------- -->
             <div class="header">
                 <h1>Dashboard</h1>
                 <div class="season-selector">
@@ -46,29 +45,30 @@
                 </div>
             </div>
 
-            <!-- Race Table Section -->
+            <!-- Race Table Section ----------------------------------- -->
             <section id="race-section">
                 <h2>Races</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Round</th>
-                            <th>Circuit</th>
-                            <th>Results</th>
-                        </tr>
-                    </thead>
-                    <tbody id="raceTableBody">
-                        <!-- Race data will populate here dynamically -->
-                    </tbody>
-                </table>
+                <div class="table-wrapper">
+                    <table id="race-table">
+                        <thead>
+                            <tr>
+                                <th>Round</th>
+                                <th>Circuit</th>
+                                <th>Results</th>
+                            </tr>
+                        </thead>
+                        <tbody id="raceTableBody">
+                            <!-- Race data will populate here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
-            <!-- Results Section -->
+            <!-- Results Section -------------------------------------- -->
             <section id="results-section">
-
                 <!-- Qualifying Results Table -->
                 <h3>Qualifying Results</h3>
-                <table>
+                <table id="qualifying-table">
                     <thead>
                         <tr>
                             <th>Pos</th>
@@ -82,11 +82,9 @@
                     <tbody id="qualifyingTableBody"></tbody>
                 </table>
 
-
-
-                <!-- Race Results Table -->
+                <!-- Race Results Table ------------------------------- -->
                 <h3>Race Results</h3>
-                <table>
+                <table id="results-table">
                     <thead>
                         <tr>
                             <th>Pos</th>
@@ -99,14 +97,8 @@
                     <tbody id="resultsTableBody"></tbody>
                 </table>
             </section>
-
-
-
         </main>
-
-
     </div>
-
 </body>
 
 </html>

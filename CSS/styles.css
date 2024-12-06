@@ -146,7 +146,7 @@ body {
   /* margin-left: 250px; */
 }
 
-/* Table Styles */
+/* Table Styles --------------------------------------*/
 table {
   width: 100%;
   border-collapse: collapse;
@@ -163,10 +163,54 @@ table th {
   background-color: #e0e0e0;
 }
 
+/* table headers and asc desc indicator  */
+thead th {
+  position: relative;
+  cursor: pointer;
+  /* padding-right: 20px; */
+}
+
+thead th.asc::after {
+  content: "🡱";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #000;
+}
+
+thead th.desc::after {
+  content: "🡳";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #000;
+}
+
+/* fixes the border on race list  */
+.table-wrapper {
+  max-height: 363px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+}
+
+.table-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.table-wrapper {
+  scrollbar-width: none;
+}
+
 /* width of the "Rounds" column */
 #race-section table th:first-child,
 #race-section table td:first-child {
-  width: 50px;
+  width: 80px;
   text-align: center;
 }
 
@@ -177,10 +221,11 @@ table th {
   text-align: center;
 }
 
-/* Scrollable Table Section */
+/* scrollable table section */
 #race-section table tbody {
-  display: block;
-  max-height: 320px; /* table height */
+  display: table-row-group;
+  /* display: block; */
+  /* max-height: 300px; table height */
   overflow-y: scroll;
   overflow-x: hidden;
   /* scrollbar-face-color: rgb(112, 91, 10); */
@@ -205,6 +250,13 @@ table th {
   display: table;
   width: 100%;
   table-layout: fixed;
+}
+
+/* width of the "Pos" column */
+#results-section table th:first-child,
+#results-section table td:first-child {
+  width: 80px;
+  text-align: center;
 }
 
 /* image logo  */
