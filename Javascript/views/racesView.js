@@ -22,37 +22,40 @@ document.addEventListener("DOMContentLoaded", function () {
           const tr = document.createElement('tr');
           tr.innerHTML = `
               <td>${race.round}</td>
-              <td>${race.circuit.name}</td>
+              <td>${race.circuit.name} <br> (${race.name})</td>
               <td><button class="results-btn" data-race-id="${race.id}" data-race-name="${race.name}">Results</button></td>
           `;
           raceTableBody.appendChild(tr);
       });
 
-      // Add event listeners to the "Results" buttons
-      const resultButtons = document.querySelectorAll('.results-btn');
-      resultButtons.forEach(button => {
-          button.addEventListener('click', () => {
-              const raceId = button.dataset.raceId;
-              const raceName = button.dataset.raceName;
-              raceTitle.textContent = raceName;
-              fetchRaceAndQualifyingResults(raceId);
-          });
-      });
+    //   Add event listeners to the "Results" buttons
+    const resultButtons = document.querySelectorAll('.results-btn');
+    resultButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const raceId = button.dataset.raceId;
+            const raceName = button.dataset.raceName;
+            // raceTitle.textContent = raceName;
+            fetchRaceAndQualifyingResults(raceId);
+        });
+    });
+
   }
 
   // Fetch both race results and qualifying results for a specific race
   function fetchRaceAndQualifyingResults(raceId) {
-      const raceUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`;
-      const qualifyingUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`;
+    const raceUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`;
+    const qualifyingUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`;
 
-      Promise.all([fetch(raceUrl).then(res => res.json()), fetch(qualifyingUrl).then(res => res.json())])
-          .then(([raceResults, qualifyingResults]) => {
-              const sortedRaceResults = raceResults.sort((a, b) => a.position - b.position); // Sort race results
-              const sortedQualifyingResults = qualifyingResults.sort((a, b) => a.position - b.position); // Sort qualifying
-              displayRaceResults(sortedRaceResults);
-              displayQualifyingResults(sortedQualifyingResults);
-          })
-          .catch(error => console.error('Error fetching results:', error));
+    Promise.all([
+        fetch(raceUrl).then(res => res.json()), 
+        fetch(qualifyingUrl).then(res => res.json())
+    ])
+    .then(([raceResults, qualifyingResults]) => {
+        const sortedRaceResults = raceResults.sort((a, b) => a.position - b.position); // Sort race results
+        const sortedQualifyingResults = qualifyingResults.sort((a, b) => a.position - b.position); // Sort qualifying
+        displayRaceResults(sortedRaceResults);
+        displayQualifyingResults(sortedQualifyingResults);
+    }).catch(error => console.error('Error fetching results:', error));
   }
 
   // Display race results in the table
