@@ -9,8 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="Javascript/views/racesView.js"></script>
-    <script src="Javascript/views/popup.js" defer></script>
+    <script type="module" src="./Javascript/views/racesView.js"></script>
+    <script type="module" src="./Javascript/views/popup.js"></script>
+
+
 </head>
 
 <body>
@@ -21,9 +23,9 @@
             <img src="./images/formula-1-logo-7.png" alt="Logo" class="logo">
             <nav>
                 <ul>
-                    <li><a href="#" id="homeBtn">Home</a></li>
-                    <li><a href="#" id="racesBtn">Races</a></li>
-                    <li><a href="#" id="favoritesBtn">Favorites</a></li>
+                    <li><a href="" id="homeBtn">Home</a></li>
+                    <li><a href="" id="racesBtn">Races</a></li>
+                    <li><a href="" id="favoritesBtn">Favorites</a></li>
                 </ul>
             </nav>
         </aside>
@@ -67,7 +69,7 @@
             <!-- Results Section -------------------------------------- -->
             <section id="results-section">
                 <!-- Qualifying Results Table -->
-                <h3>Qualifying Results</h3>
+                <h3 id="qualifying-title">Qualifying Results</h3>
                 <table id="qualifying-table">
                     <thead>
                         <tr>
@@ -83,7 +85,7 @@
                 </table>
 
                 <!-- Race Results Table ------------------------------- -->
-                <h3>Race Results</h3>
+                <h3 id="results-title">Race Results</h3>
                 <table id="results-table">
                     <thead>
                         <tr>
@@ -99,6 +101,10 @@
             </section>
         </main>
     </div>
+
+
+    <!-- POPUPS ------------------------------------------------------- -->
+
 </body>
 
 </html>
