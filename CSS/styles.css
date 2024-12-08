@@ -297,8 +297,10 @@ tbody tr:hover {
   /* left: 0; */
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  /* z-index: 9999; */
+  /* background-color: rgba(0, 0, 0, 0.7); */
+
+  /* z-index: 10; */
+  /* pointer-events: auto; */
 }
 
 .popup-content {
@@ -317,7 +319,11 @@ tbody tr:hover {
   overflow-x: hidden;
   box-sizing: border-box;
   /* position: relative; */
-  z-index: 10000;
+  /* z-index: 10000; */
+  z-index: 9995;
+
+  /* z-index: 1; */
+  /* pointer-events: auto; */
 }
 
 .close-btn {
@@ -613,15 +619,22 @@ a:hover {
   font-size: 20px;
   cursor: pointer;
   display: inline-block;
+  /* z-index: 10000; */
+  position: relative;
+  z-index: 10;
+
+  margin-right: 8px;
   vertical-align: middle;
 }
 
-.heart-icon.full-heart::before {
+.heart-icon.full-heart::after {
   content: "❤️";
   color: red;
+  /* z-index: 10000; */
 }
 
-.heart-icon.empty-heart::before {
+.heart-icon.empty-heart::after {
   content: "🤍";
   color: grey;
+  /* z-index: 10000; */
 }

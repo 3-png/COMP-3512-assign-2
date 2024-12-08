@@ -22,32 +22,33 @@ export function openDriverPopup(driver) {
     popupBody.innerHTML = popupContent;
     popup.style.display = 'block';
 
-    // event listener for close button 
-    popup.querySelector('.close-btn').addEventListener('click', () => {
-        popup.style.display = 'none';
-    });
 
-    // event listener for favoriting/unfavoriting
-    const popupHeart = popup.querySelector('.heart-icon');
-    popupHeart.addEventListener('click', () => {
-        if (favorites.includes(driver.driverId)) {
-            // removes from favorites
-            const index = favorites.indexOf(driver.driverId);
+    // Event listeners for the favorited (heart icon)
+    const heartIcon = popup.querySelector('.heart-icon');
+    heartIcon.addEventListener('click', () => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const driverId = driver.driverId;
+
+        if (favorites.includes(driverId)) {
+            // Removes from favorites
+            const index = favorites.indexOf(driverId);
             favorites.splice(index, 1);
-            popupHeart.classList.remove('full-heart');
-            popupHeart.classList.add('empty-heart');
+            heartIcon.classList.remove('full-heart');
+            heartIcon.classList.add('empty-heart');
         } else {
-            // adds to favorites
-            favorites.push(driver.driverId);
-            popupHeart.classList.remove('empty-heart');
-            popupHeart.classList.add('full-heart');
+            // Adds to favorites
+            favorites.push(driverId);
+            heartIcon.classList.remove('empty-heart');
+            heartIcon.classList.add('full-heart');
         }
 
-        // updates localStorage
         localStorage.setItem('favorites', JSON.stringify(favorites));
-
-        // syncs the table hearts
         updateFavoritesInTables();
+    });
+
+    // Event listener for close button 
+    popup.querySelector('.close-btn').addEventListener('click', () => {
+        popup.style.display = 'none';
     });
 }
 
@@ -68,7 +69,7 @@ export function openConstructorPopup(constructor) {
 }
 
 // Function to update hearts in all tables
-function updateFavoritesInTables() {
+export function updateFavoritesInTables() {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     const heartIcons = document.querySelectorAll('.heart-icon');
 

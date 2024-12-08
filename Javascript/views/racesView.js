@@ -1,5 +1,6 @@
 /* Imports */
-import { openCircuitPopup, openDriverPopup, openConstructorPopup } from './popup.js';
+import { openCircuitPopup, openDriverPopup, openConstructorPopup, updateFavoritesInTables } from './popup.js';
+
 
 // DOM
 document.addEventListener("DOMContentLoaded", function () {
@@ -110,15 +111,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 showResults(); // Shows Results tables of Qualifying and Races
             });
         });
+        favoriteListener();
     }
 
     // Display qualifying results in the table ------------------------------------------------------
     function displayQualifyingResults(results) {
         qualifyingTableBody.innerHTML = ''; // Clear previous results
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
         results.forEach(result => {
             // testing
             const driverId = result.driver.id;
             const driverName = `${result.driver.forename} ${result.driver.surname}`;
+            const isFavorite = favorites.includes(driverId);
             const constructorId = result.constructor.id;
             const constructorName = result.constructor.name;
             // ----------
@@ -126,7 +131,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${result.position}</td>
-                <td><a href="#" class="driver-link" data-driver-id="${driverId}">${driverName}</a></td>
+                <td>
+                <span class="heart-icon ${isFavorite ? 'full-heart' : 'empty-heart'}" data-driver-id="${driverId}"></span>
+                <a href="#" class="driver-link" data-driver-id="${driverId}">${driverName}</a>
+                </td>
                 <td><a href="#" class="constructor-link" data-constructor-id="${constructorId}">${constructorName}</a></td>
                 <td>${result.q1 || 'N/A'}</td>
                 <td>${result.q2 || 'N/A'}</td>
@@ -134,23 +142,20 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
             qualifyingTableBody.appendChild(tr);
         });
-
+        favoriteListener();
         initializePopups();
     }
 
     // Display race results in the table ------------------------------------------------------------
     function displayRaceResults(results) {
         resultsTableBody.innerHTML = ''; // Clear previous results
-
         const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
         results.forEach(result => {
-
-            const isFavorite = favorites.includes(result.driver.driverId);
-
             //testing
             const driverId = result.driver.id;
             const driverName = `${result.driver.forename} ${result.driver.surname}`;
+            const isFavorite = favorites.includes(result.driver.driverId);
             const constructorId = result.constructor.id;
             const constructorName = result.constructor.name;
             // ----------
@@ -158,15 +163,17 @@ document.addEventListener("DOMContentLoaded", function () {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${result.position}</td>
-                <td><a href="#" class="driver-link" data-driver-id="${driverId}">${driverName}</a></td>
+                <td>
+                <span class="heart-icon ${isFavorite ? 'full-heart' : 'empty-heart'}" data-driver-id="${driverId}"></span>
+                <a href="#" class="driver-link" data-driver-id="${driverId}">${driverName}</a>
+                </td>
                 <td><a href="#" class="constructor-link" data-constructor-id="${constructorId}">${constructorName}</a></td>
                 <td>${result.laps}</td>
                 <td>${result.points}</td>
-                <td><span class="heart-icon ${isFavorite ? 'full-heart' : 'empty-heart'}" data-driver-id="${result.driver.driverId}"></span></td>
-            `;
+                `;
             resultsTableBody.appendChild(tr);
         });
-        favorited();
+        favoriteListener();
         initializePopups();
     }
 
@@ -235,53 +242,46 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error('Error fetching results:', error));
     }
 
-    // Adss favorited 
-    function favorited() {
+    // Favorite function ---------------------------------------------------------------------------
+    function favoriteListener() {
         const heartIcons = document.querySelectorAll('.heart-icon');
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     
         heartIcons.forEach(icon => {
-            icon.addEventListener('click', (e) => {
-                const driverId = parseInt(icon.dataset.driverId);
-    
-                if (favorites.includes(driverId)) {
-                    // Remove from favorites
-                    const index = favorites.indexOf(driverId);
-                    favorites.splice(index, 1);
-                    icon.classList.remove('full-heart');
-                    icon.classList.add('empty-heart');
-                } else {
-                    // Add to favorites
-                    favorites.push(driverId);
-                    icon.classList.remove('empty-heart');
-                    icon.classList.add('full-heart');
-                }
-    
-                // Update localStorage
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-    
-                // Update all tables and popup
-                updateFavoritesInTables();
-            });
+            icon.addEventListener('click', makeFavorite);
         });
     }
-    
-    function updateFavoritesInTables() {
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        const allIcons = document.querySelectorAll('.heart-icon');
-    
-        allIcons.forEach(icon => {
-            const driverId = parseInt(icon.dataset.driverId);
-            if (favorites.includes(driverId)) {
-                icon.classList.add('full-heart');
-                icon.classList.remove('empty-heart');
-            } else {
-                icon.classList.add('empty-heart');
-                icon.classList.remove('full-heart');
-            }
-        });
-    } 
 
+    function makeFavorite(event) {
+        const icon = event.target;
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const driverId = parseInt(icon.dataset.driverId);
+    
+        // testing -----------
+        if (!driverId) {
+            console.error('Driver ID is undefined for heart icon');
+            return;
+        }
+        // -------------------
+
+        if (favorites.includes(driverId)) {
+            // Removes from favorites
+            const index = favorites.indexOf(driverId);
+            favorites.splice(index, 1);
+            icon.classList.remove('full-heart');
+            icon.classList.add('empty-heart');
+        } else {
+            // Adds to favorites
+            favorites.push(driverId);
+            icon.classList.remove('empty-heart');
+            icon.classList.add('full-heart');
+        }
+    
+        // Updates localStorage
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    
+        // Updates all tables and popups
+        updateFavoritesInTables();
+    }
 
     // Integrate sorting function (with inicators) --------------------------------------------------
     function integrateSort(tableId, tableBody) {
