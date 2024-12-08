@@ -610,14 +610,18 @@ a:hover {
 
 /* Favorited hearts  ------------------------------------------------------ */
 .heart-icon {
-    font-size: 20px;
-    cursor: pointer;
+  font-size: 20px;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
 }
 
-.heart-icon.full-heart {
-    color: red;
+.heart-icon.full-heart::before {
+  content: "❤️";
+  color: red;
 }
 
-.heart-icon.empty-heart {
-    color: grey;
+.heart-icon.empty-heart::before {
+  content: "🤍";
+  color: grey;
 }
