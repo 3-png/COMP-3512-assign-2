@@ -45,6 +45,7 @@ body {
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   position: relative;
   flex-shrink: 0;
+  align-items: stretch;
 }
 
 .sidebar .logo {
@@ -61,11 +62,13 @@ body {
 
 .sidebar nav ul li {
   width: 100%;
+  font-size: 20px;
+  text-transform: uppercase;
 }
 
 .sidebar nav ul li a {
   display: block;
-  padding: 15px 20px;
+  padding: 7px 50px;
   color: white;
   text-decoration: none;
   font-size: 1em;
@@ -141,7 +144,7 @@ body {
   flex: 1;
   padding: 120px 80px 20px 80px;
   overflow-y: auto;
-  background-color: #f3f3f3;
+  background-color: #dadada;
 
   scrollbar-color: rgb(70, 139, 151) #dcdcdc;
   scrollbar-width: thin;
@@ -165,7 +168,7 @@ table td {
 }
 
 table th {
-  background-color: #e0e0e0;
+  background-color: #a4a4a4;
 }
 
 /* table headers and asc desc indicator  */
@@ -173,9 +176,10 @@ thead th {
   position: relative;
   cursor: pointer;
   /* padding-right: 20px; */
+  content: "🡱";
 }
 
-thead th.asc::after {
+thead th.asc::before {
   content: "🡱";
   position: absolute;
   right: 10px;
@@ -207,6 +211,37 @@ thead th.desc::after {
   /* --------- testing --------- */
   /* border-radius: 10px;  */
 }
+
+/* ----------------------------------------------- testing  */
+/* alternating background colors for even rows */
+tbody tr:nth-of-type(even) {
+    background-color: rgb(255, 255, 255);
+    color: #ffd507;
+    /* text-transform: uppercase; */
+  }
+  
+  tbody tr:nth-of-type(odd) {
+    background-color: rgba(237, 237, 237, 0.947);
+    color: #ffd507;
+    /* text-transform: uppercase; */
+  }
+  
+  /* hover effects  */
+  tbody tr:hover {
+    background-color: rgb(70, 139, 151);
+    color: #ffffff;
+    /* text-transform: uppercase; */
+    a {
+      color: #ffffff;
+      /* text-transform: uppercase; */
+    }
+  
+    a:hover {
+      color: #ff4400;
+    }
+  }
+  
+/* end of testing ---------------------------------- */
 
 #race-table {
   width: 100%;
