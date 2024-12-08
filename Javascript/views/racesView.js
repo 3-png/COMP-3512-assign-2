@@ -12,9 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Storing data in local memory -----------------------------------------------------------------
     let raceData = [];
-    let constructorData = {};
-    let driverData = {};
-    let circuitData = {};
 
     // Fetching and storing the data
     function fetchRaces(season) {
@@ -48,9 +45,10 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch(circuitUrl).then(res => res.json())
         ])
         .then(([constructors, drivers, circuits]) => {
-            constructors.forEach(c => (constructorData[c.constructorId] = c));
-            drivers.forEach(d => (driverData[d.driverId] = d));
-            circuits.forEach(c => (circuitData[c.circuitId] = c));
+             // Store data in localStorage for later use
+             localStorage.setItem('constructors_data', JSON.stringify(constructors));
+             localStorage.setItem('drivers_data', JSON.stringify(drivers));
+             localStorage.setItem('circuits_data', JSON.stringify(circuits));
         })
         .catch(error => console.error('Error preloading details:', error));
     }
@@ -60,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const qualifyingTable = document.querySelector('#qualifying-table');
     const raceResultsTitle = document.querySelector('#results-title');
     const raceResultsTable = document.querySelector('#results-table');
+    const popupBox = document.querySelector('#popupSection');
 
     // Hides Qualifying and Race Results initially
     function hideResults() {
@@ -67,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
         qualifyingTable.style.display = 'none';
         raceResultsTitle.style.display = 'none';
         raceResultsTable.style.display = 'none';
+        popupBox.style.display = 'none';
     }
 
     // Shows Qualifying and Race Results
@@ -75,15 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
         qualifyingTable.style.display = 'table';
         raceResultsTitle.style.display = 'block';
         raceResultsTable.style.display = 'table';
-    }
-
-    // Fetch races for a specific season ------------------------------------------------------------
-    function fetchRaces(season) {
-        const url = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=${season}`;
-        fetch(url)
-        .then(response => response.json())
-        .then(data => displayRaces(data))
-        .catch(error => console.error('Error fetching races:', error));
     }
 
     // Display races in the table with clickable "Results" buttons ----------------------------------
@@ -99,37 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
             raceTableBody.appendChild(tr);
         });
 
-        // Add event listeners to the "Results" buttons
-        const resultButtons = document.querySelectorAll('.results-btn');
-        resultButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const raceId = button.dataset.raceId;
-                const raceName = button.dataset.raceName;
-                // raceTitle.textContent = raceName;
-                fetchRaceAndQualifyingResults(raceId);
-                showResults(); // Shows Results tables of Qualifying and Races
-            });
-        });
-        
-        // Fetch both race results and qualifying results for a specific race
-        function fetchRaceAndQualifyingResults(raceId) {
-            const raceUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`;
-            const qualifyingUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`;
-
-            Promise.all([
-                fetch(raceUrl).then(res => res.json()), 
-                fetch(qualifyingUrl).then(res => res.json())
-            ])
-            .then(([raceResults, qualifyingResults]) => {
-                const sortedRaceResults = raceResults.sort((a, b) => a.position - b.position); // Sort race results
-                const sortedQualifyingResults = qualifyingResults.sort((a, b) => a.position - b.position); // Sort qualifying
-                displayRaceResults(sortedRaceResults);
-                displayQualifyingResults(sortedQualifyingResults);
-            }) 
-            .catch(error => console.error('Error fetching results:', error));
-        }
-
-        // Event listener for circuits (races table)
+        // Event listener for circuits (races table) ----------------- testing
         const circuitLinks = document.querySelectorAll('.circuit-link');
         circuitLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -138,46 +99,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 openCircuitPopup(circuitId);
             });
         });
+        // ----------------------------------------------------------- testing
 
-    }
-
-    // Display race results in the table ------------------------------------------------------------
-    function displayRaceResults(results) {
-        resultsTableBody.innerHTML = ''; // Clear previous results
-        results.forEach(result => {
-
-            //testing
-            const driverId = result.driver?.driverId;
-            const constructorId = result.constructor?.constructorId;
-            // ----------
-
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${result.position}</td>
-                <td><a href="#" class="driver-link" data-driver-id="${driverId}">${result.driver?.forename} ${result.driver?.surname}</a></td>
-                <td><a href="#" class="constructor-link" data-constructor-id="${constructorId}">${result.constructor?.name}</a></td>
-                <td>${result.laps}</td>
-                <td>${result.points}</td>
-            `;
-            resultsTableBody.appendChild(tr);
-        });
-
-        // Event listener for drivers and constructors (in qualifyng and race results)
-        const driverLinks = document.querySelectorAll('.driver-link');
-        driverLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const driverId = link.dataset.driverId;
-                openDriverPopup(driverId);
-            });
-        });
-
-        const constructorLinks = document.querySelectorAll('.constructor-link');
-        constructorLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const constructorId = link.dataset.constructorId;
-                openConstructorPopup(constructorId);
+        // Event listener for the "Results" buttons
+        const resultButtons = document.querySelectorAll('.results-btn');
+        resultButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const raceId = button.dataset.raceId;
+                fetchRaceAndQualifyingResults(raceId);
+                showResults(); // Shows Results tables of Qualifying and Races
             });
         });
     }
@@ -187,41 +117,118 @@ document.addEventListener("DOMContentLoaded", function () {
         qualifyingTableBody.innerHTML = ''; // Clear previous results
         results.forEach(result => {
             // testing
-            const driverId = result.driver?.driverId;
-            const constructorId = result.constructor?.constructorId;
+            const driverId = result.driver.id;
+            const driverName = `${result.driver.forename} ${result.driver.surname}`;
+            const constructorId = result.constructor.id;
+            const constructorName = result.constructor.name;
             // ----------
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
-            <td>${result.position}</td>
-            <td><a href="#" class="driver-link" data-driver-id="${driverId}">${result.driver?.forename} ${result.driver?.surname}</a></td>
-            <td><a href="#" class="constructor-link" data-constructor-id="${constructorId}">${result.constructor?.name}</a></td>
-            <td>${result.q1 || 'N/A'}</td>
-            <td>${result.q2 || 'N/A'}</td>
-            <td>${result.q3 || 'N/A'}</td>
+                <td>${result.position}</td>
+                <td><a href="#" class="driver-link" data-driver-id="${driverId}">${driverName}</a></td>
+                <td><a href="#" class="constructor-link" data-constructor-id="${constructorId}">${constructorName}</a></td>
+                <td>${result.q1 || 'N/A'}</td>
+                <td>${result.q2 || 'N/A'}</td>
+                <td>${result.q3 || 'N/A'}</td>
             `;
             qualifyingTableBody.appendChild(tr);
         });
 
-        // Add event listeners for driver and constructor popups
+        initializePopups();
+    }
+
+    // Display race results in the table ------------------------------------------------------------
+    function displayRaceResults(results) {
+        resultsTableBody.innerHTML = ''; // Clear previous results
+        results.forEach(result => {
+
+            //testing
+            const driverId = result.driver.id;
+            const driverName = `${result.driver.forename} ${result.driver.surname}`;
+            const constructorId = result.constructor.id;
+            const constructorName = result.constructor.name;
+            // ----------
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${result.position}</td>
+                <td><a href="#" class="driver-link" data-driver-id="${driverId}">${driverName}</a></td>
+                <td><a href="#" class="constructor-link" data-constructor-id="${constructorId}">${constructorName}</a></td>
+                <td>${result.laps}</td>
+                <td>${result.points}</td>
+            `;
+            resultsTableBody.appendChild(tr);
+        });
+        
+        initializePopups();
+    }
+
+    // Quick function for POPUPS (for driver and contructor popups) -----------------------------------
+    function initializePopups() {
+        driverLink();
+        constructorLink();
+    }
+
+    // Function for Driver link for POPUP
+    function driverLink() {
         const driverLinks = document.querySelectorAll('.driver-link');
+        const driversData = JSON.parse(localStorage.getItem('drivers_data')) || [];
+    
         driverLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const driverId = link.dataset.driverId;
-                openDriverPopup(driverId);
-            });
-        });
-
-        const constructorLinks = document.querySelectorAll('.constructor-link');
-        constructorLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const constructorId = link.dataset.constructorId;
-                openConstructorPopup(constructorId);
+    
+                const driverId = parseInt(link.dataset.driverId);
+                const driver = driversData.find(d => d.driverId === driverId);
+    
+                if (driver) {
+                    openDriverPopup(driver);
+                } else {
+                    console.error('Driver not found:', driverId);
+                }
             });
         });
     }
+
+    // Function for Contructor link for POPUP
+    function constructorLink() {
+        const constructorLinks = document.querySelectorAll('.constructor-link');
+        const constructorsData = JSON.parse(localStorage.getItem('constructors_data')) || [];
+
+        constructorLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const constructorId = parseInt(link.dataset.constructorId);
+                const constructor = constructorsData.find(c => c.constructorId === constructorId);
+
+                if (constructor) {
+                    openConstructorPopup(constructor);
+                } else {
+                    console.error('Constructor not found');
+                }
+            });
+        });
+    }
+
+    // Fetch both race results and qualifying results for a specific race ----------------------------
+    function fetchRaceAndQualifyingResults(raceId) {
+        const raceUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${raceId}`;
+        const qualifyingUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${raceId}`;
+
+        Promise.all([
+            fetch(raceUrl).then(res => res.json()), 
+            fetch(qualifyingUrl).then(res => res.json())
+        ])
+        .then(([raceResults, qualifyingResults]) => {
+            const sortedRaceResults = raceResults.sort((a, b) => a.position - b.position); // Sort race results
+            const sortedQualifyingResults = qualifyingResults.sort((a, b) => a.position - b.position); // Sort qualifying
+            displayRaceResults(sortedRaceResults);
+            displayQualifyingResults(sortedQualifyingResults);
+        }) 
+        .catch(error => console.error('Error fetching results:', error));
+    }
+
 
     // Integrate sorting function (with inicators) --------------------------------------------------
     function integrateSort(tableId, tableBody) {
@@ -273,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Hides result tables on default
     hideResults();
 
-    // Fetch races for the default season (2023)
+    // Fetch races: default season (2023)
     fetchRaces('2023');
     preloadDetails();
 

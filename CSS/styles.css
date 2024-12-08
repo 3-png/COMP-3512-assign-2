@@ -157,8 +157,8 @@ table {
 table th,
 table td {
   padding: 10px;
-  border: 1px solid #ccc;
-  border-style: dashed;
+  border: 1px solid #cbcbcb;
+  /* border-style: dashed; */
   text-align: left;
   /* table header border radius */
   /* border-radius: 10px;  */
@@ -246,56 +246,316 @@ thead th.desc::after {
   text-align: center;
 }
 
-/* image logo  */
+/* image logo --------------------------------------------- */
 .logo {
   padding-top: 30px;
-  width: 150px;
+  width: 200px;
   height: auto;
   max-width: 100%;
 }
 
 /* Popup Styles ------------------------------------------- */
-/* Constructor POPUP container */
-.conPop {
-  display: none; /* Hidden by default */
+.popup-content {
+  background-color: #ffffff;
   position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-/* Constructor content */
-.con-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 600px;
+  right: -100%;
+  top: 15%;
+  padding: 20px 40px 40px 40px;
+  border-radius: 20px;
+  width: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  position: relative;
+  animation: slideInContent 0.5s forwards;
+  max-width: 90%;
+  max-height: 80%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
-/* Close button */
 .close-btn {
-  color: #aaa;
+  color: #b3b3b3;
   float: right;
   font-size: 28px;
   font-weight: bold;
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
 }
 
 .close-btn:hover,
 .close-btn:focus {
-  color: black;
+  color: rgb(188, 3, 3);
   text-decoration: none;
   cursor: pointer;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInContent {
+  from {
+    right: -50%;
+  }
+  to {
+    right: 20%;
+    top: 25%;
+  }
+}
+
+/* Testing -------------- */
+.popup-content p {
+  word-wrap: break-word;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+/* End od Testing ------- */
+
+/* TEXT STYLES --------------------------------------------------- */
+
+/* links */
+a {
+  text-decoration: none;
+  color: #000000;
+  font-weight: bold;
+}
+
+a:hover {
+  color: rgb(188, 3, 3);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* text shadow effect. idea provided from: https://codepen.io/LiaTsernant/pen/dywewdw   */
+/* driver name styling  */
+.titlePOP {
+  color: #ffffff;
+  -webkit-text-stroke: 1px rgb(70, 139, 151);
+  font-size: 3em;
+  /* padding-left: 20px; */
+  padding-bottom: 20px;
+  word-wrap: break-word;
+  /* text-align: center; */
+  margin: 0 auto;
+
+  text-shadow: rgb(70, 139, 151) 0px 0px, rgb(70, 139, 151) -1px 1px,
+    rgb(70, 139, 151) -2px 2px, rgb(70, 139, 151) -3px 3px,
+    rgb(70, 139, 151) -4px 4px, rgb(70, 139, 151) -5px 5px,
+    rgb(70, 139, 151) -6px 6px, rgb(70, 139, 151) -7px 7px,
+    rgb(70, 139, 151) -8px 8px, rgb(70, 139, 151) -9px 9px,
+    rgb(70, 139, 151) -10px 10px, rgb(70, 139, 151) -11px 11px,
+    rgb(70, 139, 151) -12px 12px, rgb(70, 139, 151) -13px 13px,
+    rgb(70, 139, 151) -14px 14px, rgb(70, 139, 151) -15px 15px,
+    rgb(70, 139, 151) -16px 16px, rgb(70, 139, 151) -17px 17px,
+    rgb(70, 139, 151) -18px 18px, rgb(70, 139, 151) -19px 19px,
+    rgb(70, 139, 151) -20px 20px, rgb(70, 139, 151) -21px 21px,
+    rgb(70, 139, 151) -22px 22px, rgb(70, 139, 151) -23px 23px,
+    rgb(70, 139, 151) -24px 24px, rgb(70, 139, 151) -25px 25px,
+    rgb(70, 139, 151) -26px 26px, rgb(70, 139, 151) -27px 27px,
+    rgb(70, 139, 151) -28px 28px, rgb(70, 139, 151) -29px 29px,
+    rgb(70, 139, 151) -30px 30px, rgb(70, 139, 151) -31px 31px,
+    rgb(70, 139, 151) -32px 32px, rgb(70, 139, 151) -33px 33px,
+    rgb(70, 139, 151) -34px 34px, rgb(70, 139, 151) -35px 35px,
+    rgb(70, 139, 151) -36px 36px, rgb(70, 139, 151) -37px 37px,
+    rgb(70, 139, 151) -38px 38px, rgb(70, 139, 151) -39px 39px,
+    rgb(70, 139, 151) -40px 40px, rgb(70, 139, 151) -41px 41px,
+    rgb(70, 139, 151) -42px 42px, rgb(70, 139, 151) -43px 43px,
+    rgb(70, 139, 151) -44px 44px, rgb(70, 139, 151) -45px 45px,
+    rgb(70, 139, 151) -46px 46px, rgb(70, 139, 151) -47px 47px,
+    rgb(70, 139, 151) -48px 48px, rgb(70, 139, 151) -49px 49px,
+    rgb(70, 139, 151) -50px 50px, rgb(70, 139, 151) -51px 51px,
+    rgb(70, 139, 151) -52px 52px, rgb(70, 139, 151) -53px 53px,
+    rgb(70, 139, 151) -54px 54px, rgb(70, 139, 151) -55px 55px,
+    rgb(70, 139, 151) -56px 56px, rgb(70, 139, 151) -57px 57px,
+    rgb(70, 139, 151) -58px 58px, rgb(70, 139, 151) -59px 59px,
+    rgb(70, 139, 151) -60px 60px, rgb(70, 139, 151) -61px 61px,
+    rgb(70, 139, 151) -62px 62px, rgb(70, 139, 151) -63px 63px,
+    rgb(70, 139, 151) -64px 64px, rgb(70, 139, 151) -65px 65px,
+    rgb(70, 139, 151) -66px 66px, rgb(70, 139, 151) -67px 67px,
+    rgb(70, 139, 151) -68px 68px, rgb(70, 139, 151) -69px 69px,
+    rgb(70, 139, 151) -70px 70px, rgb(70, 139, 151) -71px 71px,
+    rgb(70, 139, 151) -72px 72px, rgb(70, 139, 151) -73px 73px,
+    rgb(70, 139, 151) -74px 74px, rgb(70, 139, 151) -75px 75px,
+    rgb(70, 139, 151) -76px 76px, rgb(70, 139, 151) -77px 77px,
+    rgb(70, 139, 151) -78px 78px, rgb(70, 139, 151) -79px 79px,
+    rgb(70, 139, 151) -80px 80px, rgb(70, 139, 151) -81px 81px,
+    rgb(70, 139, 151) -82px 82px, rgb(70, 139, 151) -83px 83px,
+    rgb(70, 139, 151) -84px 84px, rgb(70, 139, 151) -85px 85px,
+    rgb(70, 139, 151) -86px 86px, rgb(70, 139, 151) -87px 87px,
+    rgb(70, 139, 151) -88px 88px, rgb(70, 139, 151) -89px 89px,
+    rgb(70, 139, 151) -90px 90px, rgb(70, 139, 151) -91px 91px,
+    rgb(70, 139, 151) -92px 92px, rgb(70, 139, 151) -93px 93px,
+    rgb(70, 139, 151) -94px 94px, rgb(70, 139, 151) -95px 95px,
+    rgb(70, 139, 151) -96px 96px, rgb(70, 139, 151) -97px 97px,
+    rgb(70, 139, 151) -98px 98px, rgb(70, 139, 151) -99px 99px,
+    rgb(70, 139, 151) -100px 100px, rgb(70, 139, 151) -101px 101px,
+    rgb(70, 139, 151) -102px 102px, rgb(70, 139, 151) -103px 103px,
+    rgb(70, 139, 151) -104px 104px, rgb(70, 139, 151) -105px 105px,
+    rgb(70, 139, 151) -106px 106px, rgb(70, 139, 151) -107px 107px,
+    rgb(70, 139, 151) -108px 108px, rgb(70, 139, 151) -109px 109px,
+    rgb(70, 139, 151) -110px 110px, rgb(70, 139, 151) -111px 111px,
+    rgb(70, 139, 151) -112px 112px, rgb(70, 139, 151) -113px 113px,
+    rgb(70, 139, 151) -114px 114px, rgb(70, 139, 151) -115px 115px,
+    rgb(70, 139, 151) -116px 116px, rgb(70, 139, 151) -117px 117px,
+    rgb(70, 139, 151) -118px 118px, rgb(70, 139, 151) -119px 119px,
+    rgb(70, 139, 151) -120px 120px, rgb(70, 139, 151) -121px 121px,
+    rgb(70, 139, 151) -122px 122px, rgb(70, 139, 151) -123px 123px,
+    rgb(70, 139, 151) -124px 124px, rgb(70, 139, 151) -125px 125px,
+    rgb(70, 139, 151) -126px 126px, rgb(70, 139, 151) -127px 127px,
+    rgb(70, 139, 151) -128px 128px, rgb(70, 139, 151) -129px 129px,
+    rgb(70, 139, 151) -130px 130px, rgb(70, 139, 151) -131px 131px,
+    rgb(70, 139, 151) -132px 132px, rgb(70, 139, 151) -133px 133px,
+    rgb(70, 139, 151) -134px 134px, rgb(70, 139, 151) -135px 135px,
+    rgb(70, 139, 151) -136px 136px, rgb(70, 139, 151) -137px 137px,
+    rgb(70, 139, 151) -138px 138px, rgb(70, 139, 151) -139px 139px,
+    rgb(70, 139, 151) -140px 140px, rgb(70, 139, 151) -141px 141px,
+    rgb(70, 139, 151) -142px 142px, rgb(70, 139, 151) -143px 143px,
+    rgb(70, 139, 151) -144px 144px, rgb(70, 139, 151) -145px 145px,
+    rgb(70, 139, 151) -146px 146px, rgb(70, 139, 151) -147px 147px,
+    rgb(70, 139, 151) -148px 148px, rgb(70, 139, 151) -149px 149px,
+    rgb(70, 139, 151) -150px 150px, rgb(70, 139, 151) -151px 151px,
+    rgb(70, 139, 151) -152px 152px, rgb(70, 139, 151) -153px 153px,
+    rgb(70, 139, 151) -154px 154px, rgb(70, 139, 151) -155px 155px,
+    rgb(70, 139, 151) -156px 156px, rgb(70, 139, 151) -157px 157px,
+    rgb(70, 139, 151) -158px 158px, rgb(70, 139, 151) -159px 159px,
+    rgb(70, 139, 151) -160px 160px, rgb(70, 139, 151) -161px 161px,
+    rgb(70, 139, 151) -162px 162px, rgb(70, 139, 151) -163px 163px,
+    rgb(70, 139, 151) -164px 164px, rgb(70, 139, 151) -165px 165px,
+    rgb(70, 139, 151) -166px 166px, rgb(70, 139, 151) -167px 167px,
+    rgb(70, 139, 151) -168px 168px, rgb(70, 139, 151) -169px 169px,
+    rgb(70, 139, 151) -170px 170px, rgb(70, 139, 151) -171px 171px,
+    rgb(70, 139, 151) -172px 172px, rgb(70, 139, 151) -173px 173px,
+    rgb(70, 139, 151) -174px 174px, rgb(70, 139, 151) -175px 175px,
+    rgb(70, 139, 151) -176px 176px, rgb(70, 139, 151) -177px 177px,
+    rgb(70, 139, 151) -178px 178px, rgb(70, 139, 151) -179px 179px,
+    rgb(70, 139, 151) -180px 180px, rgb(70, 139, 151) -181px 181px,
+    rgb(70, 139, 151) -182px 182px, rgb(70, 139, 151) -183px 183px,
+    rgb(70, 139, 151) -184px 184px, rgb(70, 139, 151) -185px 185px,
+    rgb(70, 139, 151) -186px 186px, rgb(70, 139, 151) -187px 187px,
+    rgb(70, 139, 151) -188px 188px, rgb(70, 139, 151) -189px 189px,
+    rgb(70, 139, 151) -190px 190px, rgb(70, 139, 151) -191px 191px,
+    rgb(70, 139, 151) -192px 192px, rgb(70, 139, 151) -193px 193px,
+    rgb(70, 139, 151) -194px 194px, rgb(70, 139, 151) -195px 195px,
+    rgb(70, 139, 151) -196px 196px, rgb(70, 139, 151) -197px 197px,
+    rgb(70, 139, 151) -198px 198px, rgb(70, 139, 151) -199px 199px,
+    rgb(70, 139, 151) -200px 200px, rgb(70, 139, 151) -201px 201px,
+    rgb(70, 139, 151) -202px 202px, rgb(70, 139, 151) -203px 203px,
+    rgb(70, 139, 151) -204px 204px, rgb(70, 139, 151) -205px 205px,
+    rgb(70, 139, 151) -206px 206px, rgb(70, 139, 151) -207px 207px,
+    rgb(70, 139, 151) -208px 208px, rgb(70, 139, 151) -209px 209px,
+    rgb(70, 139, 151) -210px 210px, rgb(70, 139, 151) -211px 211px,
+    rgb(70, 139, 151) -212px 212px, rgb(70, 139, 151) -213px 213px,
+    rgb(70, 139, 151) -214px 214px, rgb(70, 139, 151) -215px 215px,
+    rgb(70, 139, 151) -216px 216px, rgb(70, 139, 151) -217px 217px,
+    rgb(70, 139, 151) -218px 218px, rgb(70, 139, 151) -219px 219px,
+    rgb(70, 139, 151) -220px 220px, rgb(70, 139, 151) -221px 221px,
+    rgb(70, 139, 151) -222px 222px, rgb(70, 139, 151) -223px 223px,
+    rgb(70, 139, 151) -224px 224px, rgb(70, 139, 151) -225px 225px,
+    rgb(70, 139, 151) -226px 226px, rgb(70, 139, 151) -227px 227px,
+    rgb(70, 139, 151) -228px 228px, rgb(70, 139, 151) -229px 229px,
+    rgb(70, 139, 151) -230px 230px, rgb(70, 139, 151) -231px 231px,
+    rgb(70, 139, 151) -232px 232px, rgb(70, 139, 151) -233px 233px,
+    rgb(70, 139, 151) -234px 234px, rgb(70, 139, 151) -235px 235px,
+    rgb(70, 139, 151) -236px 236px, rgb(70, 139, 151) -237px 237px,
+    rgb(70, 139, 151) -238px 238px, rgb(70, 139, 151) -239px 239px,
+    rgb(70, 139, 151) -240px 240px, rgb(70, 139, 151) -241px 241px,
+    rgb(70, 139, 151) -242px 242px, rgb(70, 139, 151) -243px 243px,
+    rgb(70, 139, 151) -244px 244px, rgb(70, 139, 151) -245px 245px,
+    rgb(70, 139, 151) -246px 246px, rgb(70, 139, 151) -247px 247px,
+    rgb(70, 139, 151) -248px 248px, rgb(70, 139, 151) -249px 249px,
+    rgb(70, 139, 151) -250px 250px, rgb(70, 139, 151) -251px 251px,
+    rgb(70, 139, 151) -252px 252px, rgb(70, 139, 151) -253px 253px,
+    rgb(70, 139, 151) -254px 254px, rgb(70, 139, 151) -255px 255px,
+    rgb(70, 139, 151) -256px 256px, rgb(70, 139, 151) -257px 257px,
+    rgb(70, 139, 151) -258px 258px, rgb(70, 139, 151) -259px 259px,
+    rgb(70, 139, 151) -260px 260px, rgb(70, 139, 151) -261px 261px,
+    rgb(70, 139, 151) -262px 262px, rgb(70, 139, 151) -263px 263px,
+    rgb(70, 139, 151) -264px 264px, rgb(70, 139, 151) -265px 265px,
+    rgb(70, 139, 151) -266px 266px, rgb(70, 139, 151) -267px 267px,
+    rgb(70, 139, 151) -268px 268px, rgb(70, 139, 151) -269px 269px,
+    rgb(70, 139, 151) -270px 270px, rgb(70, 139, 151) -271px 271px,
+    rgb(70, 139, 151) -272px 272px, rgb(70, 139, 151) -273px 273px,
+    rgb(70, 139, 151) -274px 274px, rgb(70, 139, 151) -275px 275px,
+    rgb(70, 139, 151) -276px 276px, rgb(70, 139, 151) -277px 277px,
+    rgb(70, 139, 151) -278px 278px, rgb(70, 139, 151) -279px 279px,
+    rgb(70, 139, 151) -280px 280px, rgb(70, 139, 151) -281px 281px,
+    rgb(70, 139, 151) -282px 282px, rgb(70, 139, 151) -283px 283px,
+    rgb(70, 139, 151) -284px 284px, rgb(70, 139, 151) -285px 285px,
+    rgb(70, 139, 151) -286px 286px, rgb(70, 139, 151) -287px 287px,
+    rgb(70, 139, 151) -288px 288px, rgb(70, 139, 151) -289px 289px,
+    rgb(70, 139, 151) -290px 290px, rgb(70, 139, 151) -291px 291px,
+    rgb(70, 139, 151) -292px 292px, rgb(70, 139, 151) -293px 293px,
+    rgb(70, 139, 151) -294px 294px, rgb(70, 139, 151) -295px 295px,
+    rgb(70, 139, 151) -296px 296px, rgb(70, 139, 151) -297px 297px,
+    rgb(70, 139, 151) -298px 298px, rgb(70, 139, 151) -299px 299px,
+    rgb(70, 139, 151) -300px 300px, rgb(70, 139, 151) -301px 301px,
+    rgb(70, 139, 151) -302px 302px, rgb(70, 139, 151) -303px 303px,
+    rgb(70, 139, 151) -304px 304px, rgb(70, 139, 151) -305px 305px,
+    rgb(70, 139, 151) -306px 306px, rgb(70, 139, 151) -307px 307px,
+    rgb(70, 139, 151) -308px 308px, rgb(70, 139, 151) -309px 309px,
+    rgb(70, 139, 151) -310px 310px, rgb(70, 139, 151) -311px 311px,
+    rgb(70, 139, 151) -312px 312px, rgb(70, 139, 151) -313px 313px,
+    rgb(70, 139, 151) -314px 314px, rgb(70, 139, 151) -315px 315px,
+    rgb(70, 139, 151) -316px 316px, rgb(70, 139, 151) -317px 317px,
+    rgb(70, 139, 151) -318px 318px, rgb(70, 139, 151) -319px 319px,
+    rgb(70, 139, 151) -320px 320px, rgb(70, 139, 151) -321px 321px,
+    rgb(70, 139, 151) -322px 322px, rgb(70, 139, 151) -323px 323px,
+    rgb(70, 139, 151) -324px 324px, rgb(70, 139, 151) -325px 325px,
+    rgb(70, 139, 151) -326px 326px, rgb(70, 139, 151) -327px 327px,
+    rgb(70, 139, 151) -328px 328px, rgb(70, 139, 151) -329px 329px,
+    rgb(70, 139, 151) -330px 330px, rgb(70, 139, 151) -331px 331px,
+    rgb(70, 139, 151) -332px 332px, rgb(70, 139, 151) -333px 333px,
+    rgb(70, 139, 151) -334px 334px, rgb(70, 139, 151) -335px 335px,
+    rgb(70, 139, 151) -336px 336px, rgb(70, 139, 151) -337px 337px,
+    rgb(70, 139, 151) -338px 338px, rgb(70, 139, 151) -339px 339px,
+    rgb(70, 139, 151) -340px 340px, rgb(70, 139, 151) -341px 341px,
+    rgb(70, 139, 151) -342px 342px, rgb(70, 139, 151) -343px 343px,
+    rgb(70, 139, 151) -344px 344px, rgb(70, 139, 151) -345px 345px,
+    rgb(70, 139, 151) -346px 346px, rgb(70, 139, 151) -347px 347px,
+    rgb(70, 139, 151) -348px 348px, rgb(70, 139, 151) -349px 349px,
+    rgb(70, 139, 151) -350px 350px, rgb(70, 139, 151) -351px 351px,
+    rgb(70, 139, 151) -352px 352px, rgb(70, 139, 151) -353px 353px,
+    rgb(70, 139, 151) -354px 354px, rgb(70, 139, 151) -355px 355px,
+    rgb(70, 139, 151) -356px 356px, rgb(70, 139, 151) -357px 357px,
+    rgb(70, 139, 151) -358px 358px, rgb(70, 139, 151) -359px 359px,
+    rgb(70, 139, 151) -360px 360px, rgb(70, 139, 151) -361px 361px,
+    rgb(70, 139, 151) -362px 362px, rgb(70, 139, 151) -363px 363px,
+    rgb(70, 139, 151) -364px 364px, rgb(70, 139, 151) -365px 365px,
+    rgb(70, 139, 151) -366px 366px, rgb(70, 139, 151) -367px 367px,
+    rgb(70, 139, 151) -368px 368px, rgb(70, 139, 151) -369px 369px,
+    rgb(70, 139, 151) -370px 370px, rgb(70, 139, 151) -371px 371px,
+    rgb(70, 139, 151) -372px 372px, rgb(70, 139, 151) -373px 373px,
+    rgb(70, 139, 151) -374px 374px, rgb(70, 139, 151) -375px 375px,
+    rgb(70, 139, 151) -376px 376px, rgb(70, 139, 151) -377px 377px,
+    rgb(70, 139, 151) -378px 378px, rgb(70, 139, 151) -379px 379px,
+    rgb(70, 139, 151) -380px 380px, rgb(70, 139, 151) -381px 381px,
+    rgb(70, 139, 151) -382px 382px, rgb(70, 139, 151) -383px 383px,
+    rgb(70, 139, 151) -384px 384px, rgb(70, 139, 151) -385px 385px,
+    rgb(70, 139, 151) -386px 386px, rgb(70, 139, 151) -387px 387px,
+    rgb(70, 139, 151) -388px 388px, rgb(70, 139, 151) -389px 389px,
+    rgb(70, 139, 151) -390px 390px, rgb(70, 139, 151) -391px 391px,
+    rgb(70, 139, 151) -392px 392px, rgb(70, 139, 151) -393px 393px,
+    rgb(70, 139, 151) -394px 394px, rgb(70, 139, 151) -395px 395px,
+    rgb(70, 139, 151) -396px 396px, rgb(70, 139, 151) -397px 397px,
+    rgb(70, 139, 151) -398px 398px, rgb(70, 139, 151) -399px 399px,
+    rgb(70, 139, 151) -400px 400px, rgb(70, 139, 151) -401px 401px,
+    rgb(70, 139, 151) -402px 402px, rgb(70, 139, 151) -403px 403px,
+    rgb(70, 139, 151) -404px 404px, rgb(70, 139, 151) -405px 405px,
+    rgb(70, 139, 151) -406px 406px, rgb(70, 139, 151) -407px 407px,
+    rgb(70, 139, 151) -408px 408px, rgb(70, 139, 151) -409px 409px,
+    rgb(70, 139, 151) -410px 410px, rgb(70, 139, 151) -411px 411px,
+    rgb(70, 139, 151) -412px 412px, rgb(70, 139, 151) -413px 413px,
+    rgb(70, 139, 151) -414px 414px, rgb(70, 139, 151) -415px 415px,
+    rgb(70, 139, 151) -416px 416px, rgb(70, 139, 151) -417px 417px,
+    rgb(70, 139, 151) -418px 418px, rgb(70, 139, 151) -419px 419px,
+    rgb(70, 139, 151) -420px 420px, rgb(70, 139, 151) -421px 421px,
+    rgb(70, 139, 151) -422px 422px, rgb(70, 139, 151) -423px 423px,
+    rgb(70, 139, 151) -424px 424px, rgb(70, 139, 151) -425px 425px,
+    rgb(70, 139, 151) -426px 426px, rgb(70, 139, 151) -427px 427px,
+    rgb(70, 139, 151) -428px 428px, rgb(70, 139, 151) -429px 429px,
+    rgb(70, 139, 151) -430px 430px, rgb(70, 139, 151) -431px 431px,
+    rgb(70, 139, 151) -432px 432px, rgb(70, 139, 151) -433px 433px,
+    rgb(70, 139, 151) -434px 434px, rgb(70, 139, 151) -435px 435px;
 }
