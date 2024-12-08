@@ -141,7 +141,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Display race results in the table ------------------------------------------------------------
     function displayRaceResults(results) {
         resultsTableBody.innerHTML = ''; // Clear previous results
+
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
         results.forEach(result => {
+
+            const isFavorite = favorites.includes(result.driver.driverId);
 
             //testing
             const driverId = result.driver.id;
@@ -157,10 +162,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td><a href="#" class="constructor-link" data-constructor-id="${constructorId}">${constructorName}</a></td>
                 <td>${result.laps}</td>
                 <td>${result.points}</td>
+                <td><span class="heart-icon ${isFavorite ? 'full-heart' : 'empty-heart'}" data-driver-id="${result.driver.driverId}"></span></td>
             `;
             resultsTableBody.appendChild(tr);
         });
-        
+        favorited();
         initializePopups();
     }
 
@@ -209,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         });
-    }
+    }   
 
     // Fetch both race results and qualifying results for a specific race ----------------------------
     function fetchRaceAndQualifyingResults(raceId) {
@@ -228,6 +234,53 @@ document.addEventListener("DOMContentLoaded", function () {
         }) 
         .catch(error => console.error('Error fetching results:', error));
     }
+
+    // Adss favorited 
+    function favorited() {
+        const heartIcons = document.querySelectorAll('.heart-icon');
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    
+        heartIcons.forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                const driverId = parseInt(icon.dataset.driverId);
+    
+                if (favorites.includes(driverId)) {
+                    // Remove from favorites
+                    const index = favorites.indexOf(driverId);
+                    favorites.splice(index, 1);
+                    icon.classList.remove('full-heart');
+                    icon.classList.add('empty-heart');
+                } else {
+                    // Add to favorites
+                    favorites.push(driverId);
+                    icon.classList.remove('empty-heart');
+                    icon.classList.add('full-heart');
+                }
+    
+                // Update localStorage
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+    
+                // Update all tables and popup
+                updateFavoritesInTables();
+            });
+        });
+    }
+    
+    function updateFavoritesInTables() {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const allIcons = document.querySelectorAll('.heart-icon');
+    
+        allIcons.forEach(icon => {
+            const driverId = parseInt(icon.dataset.driverId);
+            if (favorites.includes(driverId)) {
+                icon.classList.add('full-heart');
+                icon.classList.remove('empty-heart');
+            } else {
+                icon.classList.add('empty-heart');
+                icon.classList.remove('full-heart');
+            }
+        });
+    } 
 
 
     // Integrate sorting function (with inicators) --------------------------------------------------
