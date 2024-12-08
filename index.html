@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./CSS/styles.css">
+    <link rel="stylesheet" href="./css/styles.css">
     <script type="module" src="./Javascript/views/racesView.js"></script>
     <script type="module" src="./Javascript/views/popup.js"></script>
 
@@ -20,9 +20,8 @@
         <!-- Sidebar Navigation --------------------------------------- -->
         <aside class="sidebar">
             <!-- <h2 class="logo">Forumla 1</h2> -->
-            <!-- <img src="./images/formula-1-logo-7.png" alt="Logo" class="logo"> -->
-            <img src="./images/f1-logo-vhs.gif" alt="Logo" class="logo">
-            <nav id="nav">
+            <img src="./images/formula-1-logo-7.png" alt="Logo" class="logo">
+            <nav>
                 <ul>
                     <li><a href="" id="homeBtn">Home</a></li>
                     <li><a href="" id="racesBtn">Races</a></li>
@@ -66,7 +65,7 @@
                     </table>
                 </div>
             </section>
-
+            
             <!-- Results Section -------------------------------------- -->
             <section id="results-section">
                 <!-- Qualifying Results Table -->
@@ -100,19 +99,11 @@
                     <tbody id="resultsTableBody"></tbody>
                 </table>
             </section>
-
-            <!-- POPUPS ------------------------------------------------------- -->
-            <div id="popupSection" class="popup">
-                <div class="popup-content">
-                    <span class="close-btn">&times;</span>
-                    <span id="favoriteIcon" class="heart-icon"></span>
-                    <div class="popup-body"></div>
-                </div>
-            </div>
-
-
         </main>
     </div>
+
+
+    <!-- POPUPS ------------------------------------------------------- -->
 
 </body>
 
