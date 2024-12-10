@@ -8,7 +8,7 @@ This project is a Single-Page Application (SPA) created as part of the COMP 3512
 
 
 
-Features:
+Features
 
 Dynamic Views: Includes two main views:
               Home View: Let users select a season and navigate to the Races view.
