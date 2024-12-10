@@ -241,10 +241,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Display Functions
     function displayRaces(races) {
-        // hideAllSections();
-        // const favoritesGrid = document.getElementById('favorites-grid');
-        // favoritesGrid.innerHTML = '';
-
         raceTableBody.innerHTML = '';
         const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
@@ -259,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <span class="heart-icon ${isFavorite ? 'full-heart' : 'empty-heart'}" data-circuit-id="${circuitId}"></span>
                     <a href="#" class="circuit-link" data-circuit-id="${circuitId}">${race.circuit.name}</a>
                 </td>
-                <td><button class="results-btn" data-race-id="${race.id}" data-race-name="${race.name}">Results</button></td>
+            <td><button class="results-btn" data-race-id="${race.id}" data-race-name="${race.name}">Results</button></td>
             `;
             raceTableBody.appendChild(tr);
         });
@@ -414,8 +410,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Quick function for POPUPS (for driver and contructor popups) -----------------------------------
     function initializePopups() {
+        circuitLink();
         driverLink();
         constructorLink();
+    }
+
+    // Function for Circuit link for POPUP
+    function circuitLink() {
+        const circuitLinks = document.querySelectorAll('.circuit-link');
+        const circuitsData = JSON.parse(localStorage.getItem('circuits_data')) || [];
+    
+        circuitLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const circuitId = parseInt(link.dataset.circuitId);
+                const circuit = circuitsData.find(c => c.circuitId === circuitId);
+    
+                if (circuit) {
+                    openCircuitPopup(circuit);
+                } else {
+                    console.error('Circuit not found:', circuitId);
+                }
+            });
+        });
     }
 
     // Function for Driver link for POPUP
@@ -509,12 +526,46 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // openCircuitPopup
+    function openCircuitPopup(circuit) {
+        favClick();
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const isFavorite = favorites.some(fav => fav.id === circuit.circuitId && fav.type === 'circuit');
+    
+        const popupContent = `
+            <h2 class="titlePOP">${circuit.name}</h2>
+            <img src="https://placehold.co/200x300" alt="Circuit" class="circuit-pic">
+            <p><strong>Location:</strong> ${circuit.location}</p>
+            <p><strong>Country:</strong> ${circuit.country}</p>
+            <span class="heart-icon ${isFavorite ? 'full-heart' : 'empty-heart'}" data-circuit-id="${circuit.circuitId}"></span>
+        `;
+    
+        const popup = document.getElementById('popupSection');
+        const popupBody = popup.querySelector('.popup-body');
+        popupBody.innerHTML = popupContent;
+        popup.style.display = '';
+    
+        favClick();
+
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateFavoritesInTables();
+
+        // Event listener for close button 
+        popup.querySelector('.close-btn').addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+    }
+
     // Driver Popout
     function openDriverPopup(driver) {
         favClick();
-
         const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         const isFavorite = favorites.includes(driver.driverId);
+
+        const selectedSeason = document.querySelector('#season-select').value;
+        const races = JSON.parse(localStorage.getItem(`season_${selectedSeason}`)) || [];
+
+        const sortedRaces = races.sort((a, b) => a.round - b.round);
 
         const popupContent = `
             <h2 class="titlePOP">${driver.forename} ${driver.surname}</h2>
@@ -522,6 +573,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <p><strong>Nationality:</strong> ${driver.nationality}</p>
             <p><strong>Date of Birth:</strong> ${driver.dob}</p>
             <span class="heart-icon ${isFavorite ? 'full-heart' : 'empty-heart'}" data-driver-id="${driver.driverId}"></span>
+            <h3>Race Results (${selectedSeason})</h3>
+            <ul id="race-results-list"></ul>
         `;
 
         const popup = document.getElementById('popupSection');
@@ -529,29 +582,17 @@ document.addEventListener("DOMContentLoaded", function () {
         popupBody.innerHTML = popupContent;
         popup.style.display = '';
 
-        // Event listeners for the favorited (heart icon)
-        // const heartIcon = popup.querySelector('.heart-icon');
-        // heartIcon.addEventListener('click', () => {
-        //     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        //     const driverId = driver.driverId;
+        favClick();
 
-        //     if (favorites.includes(driverId)) {
-        //         // Removes from favorites
-        //         const index = favorites.indexOf(driverId);
-        //         favorites.splice(index, 1);
-        //         heartIcon.classList.remove('full-heart');
-        //         heartIcon.classList.add('empty-heart');
-        //     } else {
-        //         // Adds to favorites
-        //         favorites.push(driverId);
-        //         heartIcon.classList.remove('empty-heart');
-        //         heartIcon.classList.add('full-heart');
-        //     }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateFavoritesInTables();
 
-            // favClick();
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            updateFavoritesInTables();
-        // });
+        const raceResultsList = document.getElementById('race-results-list');
+        sortedRaces.forEach(race => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `Round ${race.round}: ${race.name}`;
+            raceResultsList.appendChild(listItem);
+        });
 
         // Event listener for close button 
         popup.querySelector('.close-btn').addEventListener('click', () => {
@@ -561,18 +602,28 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function openConstructorPopup(constructor) {
+        favClick();
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const isFavorite = favorites.includes(constructor.constructorId);
+        
         const popupContent = `
             <h1>${constructor.name}</h1>
             <h3><strong>Nationality:</strong> ${constructor.nationality}</h3>
             <p><strong>URL:</strong> ${constructor.url}</p>
+            <span class="heart-icon ${isFavorite ? 'full-heart' : 'empty-heart'}" data-constructor-id="${constructor.constructorrId}"></span>
         `;
         const popup = document.getElementById('popupSection');
         const popupBody = popup.querySelector('.popup-body');
         popupBody.innerHTML = popupContent;
         popup.style.display = '';
 
+        favClick();
+
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateFavoritesInTables();
+
+        // Event listener for close button 
         popup.querySelector('.close-btn').addEventListener('click', () => {
-            updateFavoritesInTables();
             popup.style.display = 'none';
         });
     }
