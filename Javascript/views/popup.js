@@ -74,8 +74,8 @@ export function updateFavoritesInTables() {
     const heartIcons = document.querySelectorAll('.heart-icon');
 
     heartIcons.forEach(icon => {
-        const driverId = parseInt(icon.dataset.driverId);
-        if (favorites.includes(driverId)) {
+        const id = parseInt(icon.dataset.driverId || icon.dataset.circuitId || icon.dataset.constructorId);
+        if (favorites.includes(id)) {
             icon.classList.add('full-heart');
             icon.classList.remove('empty-heart');
         } else {

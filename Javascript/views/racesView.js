@@ -1,37 +1,78 @@
-/* Imports */
-import { openCircuitPopup, openDriverPopup, openConstructorPopup, updateFavoritesInTables } from './popup.js';
+// /* Imports */
+// import { openCircuitPopup, openDriverPopup, openConstructorPopup, updateFavoritesInTables } from './popup.js';
 
+// // DOM
+// document.addEventListener("DOMContentLoaded", function () {
+//     const seasonSelect = document.querySelector('#season-select');
+//     const raceTableBody = document.querySelector('#raceTableBody');
+//     const qualifyingTableBody = document.querySelector('#qualifyingTableBody');
+//     const resultsTableBody = document.querySelector('#resultsTableBody');
+//     const racesBtn = document.getElementById('.racesBtn');
+    
+//     // Function to show Races section
+//     function showRacesSection() {
+//         const racesSection = document.getElementById('race-section');
+        
+//         if (racesSection) {
+//             document.querySelectorAll('main section').forEach(section => {
+//                 section.style.display = 'none';
+//             });
 
-// DOM
-document.addEventListener("DOMContentLoaded", function () {
-    const seasonSelect = document.querySelector('#season-select');
-    const raceTableBody = document.querySelector('#raceTableBody');
-    // const resultsContainer = document.querySelector('#results-container');
-    // const raceTitle = document.querySelector('#race-title');
-    const qualifyingTableBody = document.querySelector('#qualifyingTableBody');
-    const resultsTableBody = document.querySelector('#resultsTableBody');
+//             // Show season selector
+//             const selector = document.querySelector('#season-selector');
+//             selector.style.display = 'block';
 
-    // Storing data in local memory -----------------------------------------------------------------
+//             // Show Races section
+//             racesSection.style.display = 'block';
+//             console.log('Races section displayed!');
+
+//             // Fetch data for the current season
+//             fetchRaces(seasonSelect.value);
+//         } else {
+//             console.error('Error: Races section not found.');
+//         }
+//     }
+
+//     // Storing data in local memory -----------------------------------------------------------------
     let raceData = [];
 
-    // Fetching and storing the data
+//     // Fetching and storing the data
     function fetchRaces(season) {
         const localData = localStorage.getItem(`season_${season}`);
         if (localData) {
-            raceData = JSON.parse(localData);
-            displayRaces(raceData);
-            return;
+            try {
+                raceData = JSON.parse(localData);
+                if (Array.isArray(raceData) && raceData.length > 0) {
+                    displayRaces(raceData);
+                    return;
+                }
+            } catch (e) {
+                console.error('Error: Getting localStorage data.', e);
+                localStorage.removeItem(`season_${season}`);
+            }
         }
 
         const url = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=${season}`;
         fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                raceData = data;
-                localStorage.setItem(`season_${season}`, JSON.stringify(data));
-                displayRaces(data);
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+                return response.json();
             })
-            .catch(error => console.error('Error fetching races:', error));
+            .then(data => {
+                if (Array.isArray(data) && data.length > 0) {
+                    raceData = data;
+                    localStorage.setItem(`season_${season}`, JSON.stringify(data));
+                    displayRaces(data);
+                } else {
+                    throw new Error('Error: Invalid API response.');
+                }
+            })
+            .catch(error => {
+                console.error('Error: Failed fetching races.', error);
+                alert('Failed to fetch race data.');
+            });
     }
 
     // Fetching constructor, driver, and circuit data (once)
@@ -54,64 +95,51 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error('Error preloading details:', error));
     }
 
-    // Hides title and tsbles until results view button is clicked ----------------------------------
-    const qualifyingTitle = document.querySelector('#qualifying-title');
-    const qualifyingTable = document.querySelector('#qualifying-table');
-    const raceResultsTitle = document.querySelector('#results-title');
-    const raceResultsTable = document.querySelector('#results-table');
-    const popupBox = document.querySelector('#popupSection');
-
-    // Hides Qualifying and Race Results initially
+//     // Hides things
     function hideResults() {
-        qualifyingTitle.style.display = 'none';
-        qualifyingTable.style.display = 'none';
-        raceResultsTitle.style.display = 'none';
-        raceResultsTable.style.display = 'none';
-        popupBox.style.display = 'none';
+        document.querySelector('#qualifying-title').style.display = 'none';
+        document.querySelector('#qualifying-table').style.display = 'none';
+        console.log('Qualifying Results hidden.');
+        document.querySelector('#results-title').style.display = 'none';
+        document.querySelector('#results-table').style.display = 'none';
+        console.log('Race Results hidden.');
+        document.querySelector('#popupSection').style.display = 'none';
+        console.log('Popout hidden.');
     }
 
-    // Shows Qualifying and Race Results
+//     // Shows everything
     function showResults() {
-        qualifyingTitle.style.display = 'block';
-        qualifyingTable.style.display = 'table';
-        raceResultsTitle.style.display = 'block';
-        raceResultsTable.style.display = 'table';
+        document.querySelector('#qualifying-title').style.display = 'block';
+        document.querySelector('#qualifying-table').style.display = 'table';
+        console.log('Qualifying Results displayed.');
+        document.querySelector('#results-title').style.display = 'block';
+        document.querySelector('#results-table').style.display = 'table';
+        console.log('Race Results displayed.');
     }
 
-    // Display races in the table with clickable "Results" buttons ----------------------------------
+//     // Display races in the table  ----------------------------------
     function displayRaces(races) {
         raceTableBody.innerHTML = ''; // Clears existing data
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
         races.forEach(race => {
+            const circuitId = race.circuit.id; 
+            const isFavorite = favorites.some(fav => fav.id === circuitId && fav.type === 'circuit');
+
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${race.round}</td>
-                <td><a href="#" class="circuit-link" data-circuit-id="${race.circuit.id}">${race.circuit.name}</td>
+                <td>
+                    <span class="heart-icon ${isFavorite ? 'full-heart' : 'empty-heart'}" data-circuit-id="${circuitId}"></span>
+                    <a href="#" class="circuit-link" data-circuit-id="${circuitId}">${race.circuit.name}</a>
+                </td>
                 <td><button class="results-btn" data-race-id="${race.id}" data-race-name="${race.name}">Results</button></td>
             `;
             raceTableBody.appendChild(tr);
         });
 
-        // Event listener for circuits (races table) ----------------- testing
-        const circuitLinks = document.querySelectorAll('.circuit-link');
-        circuitLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const circuitId = link.dataset.circuitId;
-                openCircuitPopup(circuitId);
-            });
-        });
-        // ----------------------------------------------------------- testing
-
-        // Event listener for the "Results" buttons
-        const resultButtons = document.querySelectorAll('.results-btn');
-        resultButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const raceId = button.dataset.raceId;
-                fetchRaceAndQualifyingResults(raceId);
-                showResults(); // Shows Results tables of Qualifying and Races
-            });
-        });
-        favoriteListener();
+        clickEvent();
+        initializePopups();
     }
 
     // Display qualifying results in the table ------------------------------------------------------
@@ -120,29 +148,32 @@ document.addEventListener("DOMContentLoaded", function () {
         const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
         results.forEach(result => {
-            // testing
             const driverId = result.driver.id;
             const driverName = `${result.driver.forename} ${result.driver.surname}`;
-            const isFavorite = favorites.includes(driverId);
+            const driverFavorite = favorites.some(fav => fav.id === driverId && fav.type === 'driver');
             const constructorId = result.constructor.id;
             const constructorName = result.constructor.name;
-            // ----------
+            const constFavorite = favorites.some(fav => fav.id === constructorId && fav.type === 'constructor');
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${result.position}</td>
                 <td>
-                <span class="heart-icon ${isFavorite ? 'full-heart' : 'empty-heart'}" data-driver-id="${driverId}"></span>
-                <a href="#" class="driver-link" data-driver-id="${driverId}">${driverName}</a>
+                    <span class="heart-icon ${driverFavorite ? 'full-heart' : 'empty-heart'}" data-driver-id="${driverId}"></span>
+                    <a href="#" class="driver-link" data-driver-id="${driverId}">${driverName}</a>
                 </td>
-                <td><a href="#" class="constructor-link" data-constructor-id="${constructorId}">${constructorName}</a></td>
+                <td>
+                    <span class="heart-icon ${constFavorite ? 'full-heart' : 'empty-heart'}" data-constructor-id="${constructorId}"></span>
+                    <a href="#" class="constructor-link" data-constructor-id="${constructorId}">${constructorName}</a>
+                </td>
                 <td>${result.q1 || 'N/A'}</td>
                 <td>${result.q2 || 'N/A'}</td>
                 <td>${result.q3 || 'N/A'}</td>
             `;
             qualifyingTableBody.appendChild(tr);
         });
-        favoriteListener();
+
+        clickEvent();
         initializePopups();
     }
 
@@ -152,28 +183,31 @@ document.addEventListener("DOMContentLoaded", function () {
         const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
         results.forEach(result => {
-            //testing
             const driverId = result.driver.id;
             const driverName = `${result.driver.forename} ${result.driver.surname}`;
-            const isFavorite = favorites.includes(result.driver.driverId);
+            const driverFavorite = favorites.some(fav => fav.id === driverId && fav.type === 'driver');
             const constructorId = result.constructor.id;
             const constructorName = result.constructor.name;
-            // ----------
+            const constFavorite = favorites.some(fav => fav.id === constructorId && fav.type === 'constructor');
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${result.position}</td>
                 <td>
-                <span class="heart-icon ${isFavorite ? 'full-heart' : 'empty-heart'}" data-driver-id="${driverId}"></span>
-                <a href="#" class="driver-link" data-driver-id="${driverId}">${driverName}</a>
+                    <span class="heart-icon ${driverFavorite ? 'full-heart' : 'empty-heart'}" data-driver-id="${driverId}"></span>
+                    <a href="#" class="driver-link" data-driver-id="${driverId}">${driverName}</a>
                 </td>
-                <td><a href="#" class="constructor-link" data-constructor-id="${constructorId}">${constructorName}</a></td>
+                <td>
+                    <span class="heart-icon ${constFavorite ? 'full-heart' : 'empty-heart'}" data-constructor-id="${constructorId}"></span>
+                    <a href="#" class="constructor-link" data-constructor-id="${constructorId}">${constructorName}</a>
+                </td>
                 <td>${result.laps}</td>
                 <td>${result.points}</td>
                 `;
             resultsTableBody.appendChild(tr);
         });
-        favoriteListener();
+
+        clickEvent();
         initializePopups();
     }
 
@@ -222,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         });
-    }   
+    }
 
     // Fetch both race results and qualifying results for a specific race ----------------------------
     function fetchRaceAndQualifyingResults(raceId) {
@@ -239,48 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
             displayRaceResults(sortedRaceResults);
             displayQualifyingResults(sortedQualifyingResults);
         }) 
-        .catch(error => console.error('Error fetching results:', error));
-    }
-
-    // Favorite function ---------------------------------------------------------------------------
-    function favoriteListener() {
-        const heartIcons = document.querySelectorAll('.heart-icon');
-    
-        heartIcons.forEach(icon => {
-            icon.addEventListener('click', makeFavorite);
-        });
-    }
-
-    function makeFavorite(event) {
-        const icon = event.target;
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        const driverId = parseInt(icon.dataset.driverId);
-    
-        // testing -----------
-        if (!driverId) {
-            console.error('Driver ID is undefined for heart icon');
-            return;
-        }
-        // -------------------
-
-        if (favorites.includes(driverId)) {
-            // Removes from favorites
-            const index = favorites.indexOf(driverId);
-            favorites.splice(index, 1);
-            icon.classList.remove('full-heart');
-            icon.classList.add('empty-heart');
-        } else {
-            // Adds to favorites
-            favorites.push(driverId);
-            icon.classList.remove('empty-heart');
-            icon.classList.add('full-heart');
-        }
-    
-        // Updates localStorage
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-    
-        // Updates all tables and popups
-        updateFavoritesInTables();
+        .catch(error => console.error('Error: fetching results.', error));
     }
 
     // Integrate sorting function (with inicators) --------------------------------------------------
@@ -323,23 +316,99 @@ document.addEventListener("DOMContentLoaded", function () {
         compare.forEach(row => tableBody.appendChild(row));
     }
 
-    // ----------------------------------------------------------------------------------------------
+    // Event Listeners for favorite button & results button
+    function clickEvent() {
+        // Favorite icons
+        const heartIcons = document.querySelectorAll('.heart-icon');
+        heartIcons.forEach(icon => {
+            icon.addEventListener('click', makeFavorite);
+        });
+
+        // Results buttons
+        const resultButtons = document.querySelectorAll('.results-btn');
+        resultButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const raceId = button.dataset.raceId;
+                fetchRaceAndQualifyingResults(raceId);
+                showResults();
+            });
+        });
+    }
+
+//     // Toggling favorite icon
+    function makeFavorite(event) {
+        const icon = event.target;
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    
+        let id = null;
+        let type = null;
+
+        if (icon.dataset.driverId) {
+            id = parseInt(icon.dataset.driverId);
+            type = 'driver';
+        } else if (icon.dataset.circuitId) {
+            id = parseInt(icon.dataset.circuitId);
+            type = 'circuit';
+        } else if (icon.dataset.constructorId) {
+            id = parseInt(icon.dataset.constructorId);
+            type = 'constructor';
+        }
+
+        if (!id || !type) {
+            console.error('Error: No Id/Type Found.');
+            return;
+        }
+
+        // Checking if exists
+        const existingFavorite = favorites.find(fav => fav.id === id && fav.type === type);
+
+        if (existingFavorite) {
+            // Removes from favorites
+            const updatedFavorites = favorites.filter(fav => !(fav.id === id && fav.type === type));
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+            icon.classList.remove('full-heart');
+            icon.classList.add('empty-heart');
+        } else {
+            // Adds to favorites
+            favorites.push({ id, type });
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            icon.classList.remove('empty-heart');
+            icon.classList.add('full-heart');
+        }
+    }
+
+
+//     // Races button event listener
+//     if (racesBtn) {
+//         racesBtn.addEventListener('click', (event) => {
+//             event.preventDefault();
+//             showRacesSection();
+//         });
+//     }
+
+//     // Initial fetch
+//     // preloadDetails();
+//     // fetchRaces('2023');
+// // });
+
+//     // ----------------------------------------------------------------------------------------------
 
     // Function call to sort each table
     integrateSort('race-table', raceTableBody);
     integrateSort('qualifying-table', qualifyingTableBody);
     integrateSort('results-table', resultsTableBody);
 
-    // Hides result tables on default
-    hideResults();
-
-    // Fetch races: default season (2023)
-    fetchRaces('2023');
+//     // Hides result tables on default
+//     hideResults();
+    
     preloadDetails();
 
-    // Update races when the user selects a new season
-    seasonSelect.addEventListener('change', (e) => {
-        fetchRaces(e.target.value);
-        hideResults(); // Hides result tables when new select option is selected
-    });
-});
+//     // Fetch races: default season (2023)
+    fetchRaces('2023');
+
+//     // Update races when the user selects a new season
+//     seasonSelect.addEventListener('change', (e) => {
+//         fetchRaces(e.target.value);
+//         hideResults(); // Hides result tables when new select option is selected
+//     });
+// });
