@@ -44,17 +44,17 @@ Index.html: This is the main HTML file for the project. It serves as the entry p
 
 racesView.js: This JavaScript file handles the dynamic functionality of the application. It contains the logic for fetching data from the API, rendering race-related views, and managing user interactions, such as sorting and marking favorites.
 
-	Key Features:
-  Fetches and displays data for races, drivers, constructors, and circuits.
-  Handles user interactions, such as selecting a season or viewing detailed information.
-  Implements local storage to cache data for better performance.
+   Key Features:
+   Fetches and displays data for races, drivers, constructors, and circuits.
+   Handles user interactions, such as selecting a season or viewing detailed information.
+   Implements local storage to cache data for better performance.
 
 styles.css: This CSS file defines the visual appearance of the application. It includes custom styles to ensure a responsive and user-friendly design.
 
-	Key features:
-  Provides styles for layout, typography, and interactive elements (e.g., buttons, modals).
-  Ensures the application is visually consistent and appealing across devices.
-  Includes styling for themes or specific views, such as the races view.
+    Key features:
+    Provides styles for layout, typography, and interactive elements (e.g., buttons, modals).
+    Ensures the application is visually consistent and appealing across devices.
+    Includes styling for themes or specific views, such as the races view.
 
 
 API routes
