@@ -9,8 +9,12 @@ This project is a Single-Page Application (SPA) created as part of the **COMP 35
 ## Features
 
 - **Dynamic Views**:
-  - **Home View**: Lets users select a season and navigate to the Races view.
-  - **Races View**: Displays race and qualifying results, sorted by round and position.
+  - **Home View**: Lets users select a season and navigate from Home View, Races View, & Favorites View.
+                  - **Home**: Displays home page with visuals.
+                  - **Race**: Displays selected season's Races, Qualifying Results, and Race Results.
+                              Sorted by round and position. Includes table sorting with indicators and
+                              Visual favoriting that updates all tables (data).
+                  - **Favorites**: Displays users favorites.
 - **Modal Popups**: Displays detailed information about circuits, drivers, and constructors in modal-style dialogs.
 - **Favorites Management**: Allows users to add and manage their favorite circuits, drivers, and constructors.
 - **Local Storage Caching**: Optimizes performance by storing race data locally after the first API fetch.
@@ -36,16 +40,16 @@ This project is a Single-Page Application (SPA) created as part of the **COMP 35
 
 #### Key Features:
 - Acts as the container for all dynamic views and modals.
-- Links to the `racesView.js` script and `styles.css` for functionality and design.
+- Links to the `homeView.js` script and `styles.css` for functionality and design.
 
 ---
 
-### `racesView.js`
+### `homeView.js`
 - This JavaScript file handles the dynamic functionality of the application. It contains the logic for fetching data from the API, rendering race-related views, and managing user interactions, such as sorting and marking favorites.
 
 #### Key Features:
-- Fetches and displays data for races, drivers, constructors, and circuits.
-- Handles user interactions, such as selecting a season or viewing detailed information.
+- Fetches data once and stores into local storage and displays data for races, drivers, constructors, and circuits.
+- Handles user interactions, such as selecting view, selecting a season, or viewing detailed information.
 - Implements local storage to cache data for better performance.
 
 ---
@@ -56,7 +60,7 @@ This project is a Single-Page Application (SPA) created as part of the **COMP 35
 #### Key Features:
 - Provides styles for layout, typography, and interactive elements (e.g., buttons, modals).
 - Ensures the application is visually consistent and appealing across devices.
-- Includes styling for themes or specific views, such as the races view.
+- Includes styling for themes or specific views, such as the home view.
 
 ---
 
