@@ -9,12 +9,10 @@ This project is a Single-Page Application (SPA) created as part of the COMP 3512
 
 
 Features
-Dynamic Views:
+Dynamic Views: Includes two main views:
+              Home View: Let users select a season and navigate to the Races view.
+               Races View: Displays race and qualifying results, sorted by round and position.
 
-              Includes two main views:
-                Home View: Let users select a season and navigate to the Races view.
-                Races View: Displays race and qualifying results, sorted by round and position.
-                
 Modal Popups: Displays detailed information about circuits, drivers, and constructors in modal-style dialogs.
 
 Favorites Management: Allows users to add and manage their favorite circuits, drivers, and constructors.
@@ -27,10 +25,9 @@ API Integration: Consumes Formula 1 API to fetch and display real-time race data
 
 Custom Sorting: Enables sorting by race details, such as round or position, with visual indicators for sorting changes.
 
-Technologies Used
+Technologies Used:
 
 HTML, CSS and Javascript
-
 
 
 Main project files:
@@ -41,20 +38,21 @@ Index.html: This is the main HTML file for the project. It serves as the entry p
    Key Features:
    Acts as the container for all dynamic views and modals.
    Links to the racesView.js script and styles.css for functionality and design.
-
+ 
 racesView.js: This JavaScript file handles the dynamic functionality of the application. It contains the logic for fetching data from the API, rendering race-related views, and managing user interactions, such as sorting and marking favorites.
 
-   Key Features:
+	Key Features:
    Fetches and displays data for races, drivers, constructors, and circuits.
    Handles user interactions, such as selecting a season or viewing detailed information.
    Implements local storage to cache data for better performance.
 
 styles.css: This CSS file defines the visual appearance of the application. It includes custom styles to ensure a responsive and user-friendly design.
 
-    Key features:
-    Provides styles for layout, typography, and interactive elements (e.g., buttons, modals).
-    Ensures the application is visually consistent and appealing across devices.
-    Includes styling for themes or specific views, such as the races view.
+	Key features:
+   Provides styles for layout, typography, and interactive elements (e.g., buttons, modals).
+   Ensures the application is visually consistent and appealing across devices.
+   Includes styling for themes or specific views, such as the races view.
+
 
 
 API routes
