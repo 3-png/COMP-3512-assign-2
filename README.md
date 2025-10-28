@@ -89,8 +89,6 @@ The application uses the Formula 1 API to fetch race data. Below are the routes 
 ---
 
 ## Sample API URL
-
-```plaintext
 [domain]/constructors.php?ref=mclaren
 
 ---
